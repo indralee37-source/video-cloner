@@ -47,6 +47,7 @@ see exactly what "filling it in" looks like.
 4. Install local tooling (frame extraction + transcription):
    ```bash
    brew install ffmpeg            # frame + audio extraction
+   brew install yt-dlp            # download reference videos from URLs (YouTube, Instagram, TikTok, …)
    pip3 install openai-whisper    # dialogue transcription (optional but recommended)
    ```
 

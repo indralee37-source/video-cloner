@@ -22,7 +22,8 @@ and ask the user to configure a backend (see the hub [SKILL.md](../../SKILL.md))
 ## Prerequisites
 
 ```bash
-command -v ffmpeg >/dev/null || echo "MISSING — run: brew install ffmpeg"
+command -v ffmpeg  >/dev/null || echo "MISSING — run: brew install ffmpeg"
+command -v yt-dlp  >/dev/null || echo "MISSING — run: brew install yt-dlp  (required for URL inputs)"
 python3 -c "import whisper" 2>/dev/null || echo "whisper MISSING (optional) — pip3 install openai-whisper"
 ```
 
@@ -30,20 +31,22 @@ python3 -c "import whisper" 2>/dev/null || echo "whisper MISSING (optional) — 
 
 | Input | Required | Notes |
 |-------|----------|-------|
-| Source video | yes | `.mp4`/`.mov`/`.webm` path |
+| Source video | yes | local path (`.mp4`/`.mov`/`.webm`) **or** a URL (YouTube, Instagram, TikTok, …) |
 | Product image | recommended | becomes the i2v reference; without it the model invents the product |
 | Product/offer description | if no image | used to rewrite dialogue + product references |
 | Brand voice | optional | from `MASTER_CONTEXT.md` or ask |
 
-If they only give a video, ask for at least a product image or description first.
+If the user provides a URL, yt-dlp will download it automatically in Step 1 — no manual
+download needed. If they only give a video, ask for at least a product image or description first.
 
 ## Step 1 — Extract frames + audio
 
-Reuse the shared script (don't duplicate it):
+Reuse the shared script (don't duplicate it). It accepts a **local path or a URL** — if a
+URL is given, yt-dlp downloads the video to `<output_dir>/_source.mp4` first.
 
 ```bash
 bash "<skill-path>/prompting/analyze-video/scripts/extract-frames.sh" \
-  "<source_video>" "/tmp/clone-ad-analysis" <num_frames>
+  "<source_video_or_url>" "/tmp/clone-ad-analysis" <num_frames>
 ```
 
 Frame count: <10s→8, 10–20s→12, 20–30s→16, >30s→20. Read `metadata.txt` for duration.

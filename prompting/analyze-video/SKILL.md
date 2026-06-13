@@ -26,14 +26,20 @@ a single max-length clip and include a multi-clip strategy for longer styles.
 ## Dependencies
 
 - **ffmpeg/ffprobe** — frame extraction (Step 1). `brew install ffmpeg`.
+- **yt-dlp** — download reference videos from URLs (YouTube, Instagram, TikTok, Twitter/X,
+  Vimeo, …) before frame extraction. `brew install yt-dlp`. Required when the user provides
+  a URL instead of a local file; the extraction script calls it automatically.
 - **whisper** — optional transcription (Step 2). `pip3 install openai-whisper`. Without it,
   ask the user for the dialogue.
 
 ## Step 1 — Extract frames + audio
 
+The script accepts either a **local file path** or a **URL** — yt-dlp download happens
+automatically when the input starts with `http`.
+
 ```bash
 bash "<skill-path>/prompting/analyze-video/scripts/extract-frames.sh" \
-  "<video>" "/tmp/video-analysis" <num_frames>
+  "<video_path_or_url>" "/tmp/video-analysis" <num_frames>
 ```
 Frame count: <10s→8, 10–20s→12, 20–30s→16, >30s→20. Read `metadata.txt`.
 
