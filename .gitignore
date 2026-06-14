@@ -1,0 +1,6 @@
+# scratch output from the run-video-clone smoke driver
+.vc-smoke/
+# generated outputs / extracted frames / secrets
+outputs/
+references/
+.env
